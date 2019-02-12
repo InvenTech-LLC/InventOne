@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery.min.js"></script>
+<script src="knob.js"></script>
+
+<script>
+    $('.dial').trigger(
+        'configure',
+        {
+            "min":0,
+            "max":100,
+            "width":150,
+    	    "fgColor":"#ffec03",
+    	    "skin":"tron",
+    	    "thickness":0.2,
+    	    "displayPrevious":true,
+            "cursor":true
+        }
+    );
+</script>
+</head>
+<body style="background: url('inventone-logo__red.png') no-repeat 50%; height: 100vh; margin: 0;">
+<center>
+<a href="https://inventone.ng">inventone.ng</a><br>
+Welcome to InventOne IoT Platform<br>
+Input to LED<br>
+<input type="text" class="dial" value="75" data-displayPrevious=true data-fgColor="#228B22" data-thickness=.3 value="29">
+</center>
+<script>
+    $(".dial").knob({
+        'change' : function (v) { console.log(Math.round(v,0));    
+		$.ajax({url: "/setLED?pwm="+Math.round(v,0), success: function(result){
+        		$("#div1").html(result);
+    		}});
+	}
+    });
+	
+
+</script>
+
+</body>
+</html>
+
