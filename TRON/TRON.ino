@@ -1,24 +1,49 @@
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
-#include <ESP8266mDNS.h>
+#include <DNSServer.h>
 #include <FS.h>
+#include <Robot.h>
 #include <Drive.h>
-
+#include <ESP8266HTTPUpdateServer.h>
 
 #define DBG_OUTPUT_PORT Serial
+#define ECHO 15 //D1
+#define TRIGGER 16  //D9
+#define SERVO 14  //D3
+#define MANUAL 0
+#define SELF_DRIVE 1
 
-const char* ssid = "ESP8266_WIFI";
-const char* password = "123456789";
-const char* host = "InventOneRobotics";
+//bool Move();
+//bool Right();
+//bool Left();
+//bool Brake();
+//bool Accel();
+//bool Gear1();
+//bool Gear2();
+//bool Gear3();
+//bool autoDrive();
 
 const int IN1 = 5;  //D6
 const int IN2 = 4;  //D5
 const int IN3 = 12; //D8
 const int IN4 = 13; //D7
 
-ESP8266WebServer server(80);
 Drive drive(IN1, IN2, IN3, IN4);
+
+int g;
+int s;
+int d;
+int rightDist;
+int leftDist;
+
+const byte DNS_PORT = 53;
+IPAddress apIP(192, 168, 2, 1);
+DNSServer dnsServer;
+ESP8266WebServer server(80);
+ESP8266HTTPUpdateServer httpUpdater;
+
+Robot robot(IN1, IN2, IN3, IN4);
 //holds the current upload
 File fsUploadFile;
 
@@ -85,33 +110,6 @@ bool handleFileRead(String path) {
   return false;
 }
 
-bool Forward(){
-  drive.moveForward(500);
-  DBG_OUTPUT_PORT.println("Moving forward");
-  return true;
-  }
-bool Backward(){
-  drive.moveBackward(500);
-  DBG_OUTPUT_PORT.println("Moving backwards");
-  return true;
-  }
-  
-bool Right(){
-  drive.turnRight(500);
-  DBG_OUTPUT_PORT.println("Turning right");
-  return true;
-  }
-bool Left(){
-  drive.turnLeft(500);
-  DBG_OUTPUT_PORT.println("Turning left");
-  return true;
-  }
-bool Stop(){
-  drive.stopMoving();
-  DBG_OUTPUT_PORT.println("Stopped!!!");
-  return true;
-  } 
-
 void setup(void) {
   DBG_OUTPUT_PORT.begin(115200);
   DBG_OUTPUT_PORT.print("\n");
@@ -127,35 +125,29 @@ void setup(void) {
     DBG_OUTPUT_PORT.printf("\n");
   }
 
+  dnsServer.setTTL(300);
+  dnsServer.setErrorReplyCode(DNSReplyCode::ServerFailure);
+  dnsServer.start(DNS_PORT, "www.tron.io", apIP);
 
-  //WIFI INIT
-  DBG_OUTPUT_PORT.printf("Connecting to %s\n", ssid);
-  if (String(WiFi.SSID()) != String(ssid)) {
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(ssid, password);
-  }
+  //myservo.attach(SERVO);
+  robot.setup(SERVO, TRIGGER, ECHO);
 
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    DBG_OUTPUT_PORT.print(".");
-  }
-  DBG_OUTPUT_PORT.println("");
-  DBG_OUTPUT_PORT.print("Connected! IP address: ");
-  DBG_OUTPUT_PORT.println(WiFi.localIP());
-
-  MDNS.begin(host);
-  DBG_OUTPUT_PORT.print("Open http://");
-  DBG_OUTPUT_PORT.print(host);
-  DBG_OUTPUT_PORT.println(".local/");
-
+  WiFi.disconnect();
+  WiFi.mode(WIFI_AP);
+  WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
+  WiFi.softAP("TRON", "robotcar");
 
   //SERVER INIT
-  server.on("/forward", HTTP_GET, Forward); 
-  server.on("/backward", HTTP_GET, Backward); 
-  server.on("/right", HTTP_GET, Right); 
-  server.on("/left", HTTP_GET, Left); 
-  server.on("/stop", HTTP_GET, Stop); 
-  
+  server.on("/move", HTTP_GET, Move);
+  server.on("/gear1", HTTP_GET, Gear1);
+  server.on("/gear2", HTTP_GET, Gear2);
+  server.on("/gear3", HTTP_GET, Gear3);
+  server.on("/right", HTTP_GET, Right);
+  server.on("/left", HTTP_GET, Left);
+  server.on("/brake", HTTP_GET, Brake);
+  server.on("/accel", HTTP_GET, Accel);
+  server.on("/autodrive", HTTP_GET, autoDrive);
+
   //use it to load content from SPIFFS
   server.onNotFound([]() {
     if (!handleFileRead(server.uri())) {
@@ -170,4 +162,5 @@ void setup(void) {
 
 void loop(void) {
   server.handleClient();
+  dnsServer.processNextRequest();
 }

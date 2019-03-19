@@ -1,80 +1,188 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width initial-scale=1">
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="fontawesome.min.css">
+    <link rel="stylesheet" href="style.css">
     <script type="text/javascript" src='all.js'></script>
+    <script type="text/javascript" src='jquery.min.js'></script>
+    <script type="text/javascript" src='script.js'></script>
+    <script type="text/javascript" src='TweenMax.min.js'></script>
     <title>robot control</title>
-    <style media="screen">
-      body {
-            background:linear-gradient(rgba(76,174,76,0.2),rgba(217,79,79,0.2)), url("inventone__board.jpg") center no-repeat fixed;
-            background-size:cover;
-            padding-top:50px;
-            height:100vh;
-      }
-
-      .container  {
-                    padding:30px;
-      }
-
-      .item a button{
-              margin:10px auto;
-              display:block;
-			  font-size:20pt;
-			  padding:10px 20px;
-      }
-      h2{
-          margin-bottom:70px;
-          font-weight:bold;
-      }
-      a:hover{
-                text-decoration:none;
-      }
-    </style>
   </head>
   <body>
     <div class="container">
-
-      <h2 class='text-center text-danger'>Invent <span><img src="inventone-logo__red.png" width=20 alt=""></span>ne Robotics</h2>
-
       <div class="row">
-        <div class="col-xs-offset-4 col-xs-4">
-          <div class="item text-center">
-            <a href="forward" target="myIframe"target="myIframe"><button type="button" class='btn btn-success' name="button"><i class="fas fa-arrow-up"></i></button></a>
+        <div class="col-xs-8">
+          <div class="dashboard">
+            <div id="main">
+              <div id="screen">
+                <div id="home">
+                  <div id="radial">
+                    <div id="empty"></div>
+                  </div>
+                  <div id="icon">
+
+                    <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/battery_icon_zpst5bk33aq.png"/>
+                  </div>
+                  <div id="status">15%</div>
+                  <h1 id="countdown">0</h1>
+                  <div id="mph">mph</div>
+                </div>
+
+                <div id="cardva">
+                  <img src="http://i1204.photobucket.com/albums/bb409/david_barukcic/temperature_icon_zpssyam3lm5.png" />
+
+                  <h2>ENGINE<br>TEMPERATURE</h2>
+                  <h3>46<span class="small">	℃</span></h3>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-4">
-          <div class="item text-center">
-            <a href="left" target="myIframe"><button type="button" class='btn btn-success' name="button"><i class="fas fa-arrow-left"></i></button></a>
+        <div class=" col-xs-4" style='padding-left:40px'>
+          <div class="slidecontainer" width=100%>
+              <input type="range" min="1" max="4" value="4" class="slider" id="myRange">
+              <div class="gear-labels">
+                <p>P</p>
+                <p>D</p>
+                <p>R</p>
+                <p>A</p>
+              </div>
           </div>
-        </div>
 
-        <div class="col-xs-4">
-          <div class="item text-center">
-            <a href="stop" target="myIframe"><button type="button" class='btn btn-danger' name="button">stop</button></a>
-          </div>
         </div>
-
-        <div class="col-xs-4">
-          <div class="item text-center">
-            <a href="right" target="myIframe"><button type="button" class='btn btn-success' name="button"><i class="fas fa-arrow-right"></i></button></a>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-offset-4 col-xs-4">
-          <div class="item text-center">
-            <a href="backward" target="myIframe"><button type="button" class='btn btn-success' name="button"><i class="fas fa-arrow-down"></i></button></a>
+        <div class="col-xs-12">
+          <div class="arrow row">
+            <span class='left col-xs-4 text-center'><i class='fas fa-arrow-left'></i></span>
+            <span class='right col-xs-4 text-center'><i class='fas fa-arrow-right'></i></span>
+            <span class='gear-present col-xs-4 text-center'>P</span>
           </div>
         </div>
       </div>
     </div>
-	<iframe name="myIframe" width="1" height="1" frameBorder="0" margin="0">
+    <div class='container directions'>
+
+      <div class='row'>
+        <!--left button-->
+        <div class="col-xs-4">
+          <div class="direc-left">
+            <a href="/left" class='left dir' target='myFrame'><button type="button" class='btn btn-primary btn-block' name="button"><i class='fas fa-arrow-left'></i> </button></a>
+          </div>
+        </div>
+
+        <!--Right button-->
+        <div class="col-xs-offset-4 col-xs-4">
+          <div class="direc-right">
+            <a href="/right" class='right dir' target='myFrame'><button type="button" class='btn btn-primary btn-block' name="button"><i class='fas fa-arrow-right'></i> </button></a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row pedals">
+      <div class="col-xs-4 brake text-center">
+        <button type="button" name="button" class='btn btn-danger btn-brake' >Brake </button>
+      </div>
+
+      <div class="col-xs-offset-4 col-xs-4 throttle text-center">
+        <button type="button" name="button" class='btn btn-success btn-accel' >Accel</button>
+      </div>
+    </div>
+
+    <iframe src="" width="0" height="0" id='myFrame' frameBorder='0' name='myFrame'> </iframe>
+
+    <a href="/gear1" class='gear1' target='myFrame'><span></span></a>
+    <a href="/gear2" class='gear2' target='myFrame'><span></span></a>
+    <a href="/gear3" class='gear3' target='myFrame'><span></span></a>
+    <a href="/autodrive" class='autodrive' target='myFrame'><span></span></a>
+
+    <a href="/brake" class='brake' target='myFrame'><span></span></a>
+    <a href="/accel" class='accel' target='myFrame'><span></span></a>
+
+    <a href="/move" class='move' target='myFrame'><span></span></a>
+
+    <script type="text/javascript">
+      gears=['A','R','D','P']
+      var p;
+      var q;
+      var resend;
+
+      function funct_brake(){
+        $('a.brake span').trigger('click')
+        q=setTimeout(funct_brake,200)
+      }
+
+      function funct_accel(){
+        $('a.accel span').trigger('click')
+        p=setTimeout(funct_accel,500)
+      }
+
+      function autoDrive(){
+        $('a.autodrive span').trigger('click')
+        resend=document.getElementById('myFrame').contentWindow.document.getElementsByTagName('body')[0]
+        console.log('works');
+        if(resend!=undefined){
+          if(resend.innerHTML=='resend'){
+            $('a.autodrive span').trigger('click');
+          }
+        }
+        if($('#myRange').val()==1){
+            t=setTimeout(autoDrive,100)
+        }
+      }
+
+      $(document).ready(function(){
+
+        $('.pedals .btn.btn-brake').mousedown(function(){
+          funct_brake()
+        })
+        .mouseleave(function(){
+          clearTimeout(q)
+        })
+
+        $('.pedals .btn.btn-accel').mousedown(function(){
+          funct_accel()
+        })
+        .mouseleave(function(){
+          clearTimeout(p)
+        })
+
+        $('#myRange').change(function(){
+
+          pgear=$(this).val()
+          $('.gear-present').html(gears[pgear-1])
+
+            //Drive
+            if($(this).val()==3){
+              $('a.gear1 span').trigger('click')
+            }
+
+            //Reverse
+            if($(this).val()==2){
+              $('a.gear2 span').trigger('click')
+            }
+
+            //Auto Drive
+            if($(this).val()==1){
+              autoDrive()
+            }
+
+            //Park
+            if($(this).val()==4){
+              $('a.gear3 span').trigger('click')
+            }
+
+          })
+
+        $('.dir').focusout(function(){
+          $('.move span').trigger('click')
+        })
+      })
+    </script>
   </body>
 </html>

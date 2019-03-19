@@ -1,0 +1,311 @@
+
+/*Speedometer*/
+*, *:before, *:after {
+  box-sizing: border-box;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+body {
+  margin: 0;
+  padding: 10px;
+  min-height: 100vh;
+  background: url('background.jpeg') fixed center;
+  background-size: cover;
+
+}
+
+a, h1, h2, h3 {
+
+  line-height: 1;
+}
+
+#main {
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 0.1s;
+  transition: -webkit-transform 0.1s;
+  transition: transform 0.1s;
+  transition: transform 0.1s, -webkit-transform 0.1s;
+  border-radius: 400px;
+  background: -webkit-linear-gradient(285deg, #00a8ff 0%, red 100%);
+  background: linear-gradient(165deg, #00a8ff 0%, red 100%);
+  margin: 0 auto;
+  box-shadow: 0 0 30px rgba(110,237,58,1);
+}
+
+#screen {
+  color: #fff;
+  z-index: 100;
+  -webkit-font-smoothing: antialiased;
+  font-family: "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  background: #010101;
+  width: 190px;
+  height: 190px;
+  margin: 5px;
+  border-radius: 100%;
+  position: absolute;
+  overflow: hidden;
+}
+
+#radial {
+  position: absolute;
+  margin: 10px;
+  width: 170px;
+  height: 170px;
+  opacity: 0.5;
+}
+#radial #empty {
+  position: absolute;
+  width: 90%;
+  height: 90%;
+  background-color: #000;
+  border-radius: 100%;
+  left: 5%;
+  top: 5%;
+  pointer-events: none;
+}
+#radial .tick {
+  position: absolute;
+  width: 1.5px;
+  height: 100%;
+  left: 50%;
+  margin-left: -1px;
+  background: #fff;
+  pointer-events: none;
+}
+
+#home {
+  position: absolute;
+  mix-blend-mode: screen;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+#home h1 {
+
+  position: absolute;
+  top: 55%;
+  margin-top: -55px;
+  line-height: 100px;
+  text-align: center;
+  font-size: 55px;
+  width: 100%;
+  letter-spacing: 2.5px;
+}
+#home #mph {
+  color: fff;
+  opacity: 1;
+  position: absolute;
+  width: 100%;
+  bottom: 35px;
+  text-align: center;
+  font-size: 26px;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+  font-weight: 100;
+}
+#home #status, #home h2 {
+  width: 100%;
+  font-size: 15px;
+  opacity: 1;
+  letter-spacing: 0.25px;
+  position: absolute;
+  top: 50px;
+  text-transform: uppercase;
+  color: #00a8ff;
+  font-weight: 200;
+  text-align: center;
+}
+
+#home #icon img {
+  width: 27px;
+
+  opacity: 1;
+  letter-spacing: 0.25px;
+  position: absolute;
+  top: 34px;
+  left: 81px;
+  text-transform: uppercase;
+  color: #00a8ff;
+  font-weight: bold;
+  text-align: center;
+}
+
+#main.pressed, #main:active {
+  -webkit-transform: scale(0.9875);
+          transform: scale(0.9875);
+  opacity: 0.7;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+
+/* third screen style */
+
+#cardva {
+  mix-blend-mode: screen;
+  position: relative;
+  opacity: 0;
+}
+#cardva img {
+  width: 16px;
+  display: block;
+  position: absolute;
+  margin-top: 72px;
+  left: 87px;
+}
+#cardva h2 {
+  width: 100%;
+  font-size: 15px;
+  letter-spacing: 0.25px;
+  position: absolute;
+  top: 17px;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+  position: absolute;
+  opacity: 1;
+}
+#cardva h3 {
+  width: 100%;
+  font-size: 28px;
+  opacity: 1;
+  letter-spacing: 0.25px;
+  position: absolute;
+  top: 105px;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+  color: #fff;
+}
+
+#cardva h3 .small {
+  font-size: 28px;
+  font-weight: 100;
+}
+/*End of Speedometer*/
+
+/*Slider*/
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  transform: rotate(-90deg);
+  width:150px !important; /* Full-width */
+  height: 15px; /* Specified height */
+  background:#fc1e18;
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+  display:block !important;
+  position: relative;
+  top:95px;
+  right:60px;
+  z-index:3;
+}
+
+/* Mouse-over effects */
+.slider:hover {
+  opacity: 1; /* Fully shown on mouse-over */
+}
+
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 25px; /* Set a specific slider handle width */
+  height: 35px; /* Slider handle height */
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+  border-radius:40%;
+  background:url('gear.jpg') center;
+  background-size:cover;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px; /* Set a specific slider handle width */
+  height: 25px; /* Slider handle height */
+  background: #4CAF50; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+/*End of Slider*/
+
+
+/*Page*/
+.gear-labels{
+    padding-left:40px;
+    width:90px;
+    z-index:1;
+    padding-top:20px;
+    /*background-color:rgba(52,52,50,.68);*/
+    border-radius:5px;
+    padding-bottom: 5px;
+}
+
+.dashboard{
+            padding:20px;
+            border-radius:30%;
+            border-bottom:none;
+            margin:10px auto;
+            padding-bottom:0px;
+            margin-bottom:7px;
+          }
+
+.arrow {
+  color:rgba(110,237,58,1);
+  font-weight:bold;
+  font-size:20pt;
+  width:100%;
+  margin:20px auto;
+}
+.arrow span{
+  display:block;
+  box-shadow: 0px 0px 15px rgba(110,237,58,1);
+  border-radius:50%;
+  padding:5px 10px;
+  width:17%;
+  margin:auto 8%;
+}
+
+
+p{
+  margin-bottom:20px;
+  font-weight:bold;
+  color:white;
+}
+
+
+
+button.btn-primary  {
+    font-size:20pt;
+    background-color: #2f323a;
+}
+
+.directions {
+    border-radius: 30%;
+    width:100%;
+    margin-bottom:50px;
+    margin-top: 50px;
+
+}
+
+.
+.press {
+  transform: translate(5%,5%);
+}
+
+
+
+
+
+/*media Queries*/
+@media (max-width:400px) {
+    .gear-labels{
+      left:10px;
+    }
+}
