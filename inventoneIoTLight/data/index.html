@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <title>Switch</title>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <script type="text/javascript">
+        
+            function checki () {
+                check = document.getElementById("check");
+                on = document.getElementById("on")
+                off = document.getElementById("off")
+                if (check.checked){
+                    on.click()
+                }
+                else{
+                    off.click()
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+
+        <div class="mid">
+
+            <label class="rocker">
+              <input onchange="checki()" id ="check" type="checkbox" >
+              
+              <span class="switch-left">On</span>
+                              <span class="switch-right">Off</span>
+
+            </label>
+            <a href="on" id="on" target="myIframe" ></a>
+            <a href="off" id="off" target="myIframe" ></a>
+        </div>
+          <iframe name="myIframe" width="1" height="1" frameBorder="1" margin="0">
+
+
+    </body>
+   
+</html>
