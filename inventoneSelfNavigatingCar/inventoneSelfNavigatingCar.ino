@@ -2,19 +2,20 @@
 #include <Ultrasonic.h>
 #include <Drive.h>
 
-#define ECHO 15 //D1
-#define TRIGGER 16  //D9
-#define SERVO 14  //D3
-#define MAX_DISTANCE 200 
+#define ECHO 2 //D7
+#define TRIGGER 14  //D8
+#define SERVO 15  //D5
+#define MAX_DISTANCE 200
 
-const int IN1 = 5;  //D6
-const int IN2 = 4;  //D5
-const int IN3 = 12; //D8
-const int IN4 = 13; //D7
- 
+//Define L298N pin mappings
+const int IN1 = 16;  //D4
+const int IN2 = 12; //D3
+const int IN3 = 13; //D2
+const int IN4 = 4;  //D1
+
 Servo myservo;
 Drive drive(IN1, IN2, IN3, IN4);
-Ultrasonic ultrasonic(TRIGGER,ECHO);
+Ultrasonic ultrasonic(TRIGGER, ECHO);
 
 int rightDistance;
 int leftDistance;
@@ -22,44 +23,43 @@ int leftDistance;
 void setup() {
   Serial.begin(9600);
   myservo.attach(SERVO);
- }
+}
 
 void loop() {
   lookForward();
-  
-  while(findDistance() >= 30){
+
+  while (findDistance() >= 20) {
     drive.moveForward(500);
     Serial.println("Moving forward");
     delay(100);
-    }
-    
+  }
+
   drive.stopMoving();
   Serial.println("Stopped moving");
 
   rightDistance = lookRight();
   leftDistance = lookLeft();
 
-  if (leftDistance > rightDistance){
+  if (leftDistance > rightDistance) {
     drive.turnLeft(500);
     Serial.println("Turning left");
     delay(500);
     drive.stopMoving();
-    }
-    
+  }
+
   else if (rightDistance > leftDistance) {
     drive.turnRight(500);
     Serial.println("Turning right");
     delay(500);
     drive.stopMoving();
-    }
+  }
   else {
     drive.moveBackward(500);
     delay(500);
     drive.stopMoving();
-    }
+  }
 
   delay(1000);
 }
 //Help the robot know the last turn it made so it doesn't repeat it
 //Also check if the turns are correct
-
