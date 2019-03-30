@@ -5,8 +5,11 @@
 #include <FS.h>
 #include <ESP8266HTTPUpdateServer.h>
 
-#define BULB 4
+#define BULB D5
 #define DBG_OUTPUT_PORT Serial
+
+const *ssid = "ina"
+const *password = "inventech"
 
 const byte DNS_PORT = 53;
 IPAddress apIP(192, 168, 2, 1);
