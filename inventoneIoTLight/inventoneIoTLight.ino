@@ -5,7 +5,7 @@
 #include <FS.h>
 #include <ESP8266HTTPUpdateServer.h>
 
-#define BULB 12
+#define BULB 4
 #define DBG_OUTPUT_PORT Serial
 
 const byte DNS_PORT = 53;
